@@ -13,6 +13,20 @@ namespace IdentityServer.Testing
                 new ApiResource("api1", "My API")
             };
         }
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new List<IdentityResource>
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResource
+                {
+                    Name = "roles",
+                    DisplayName = "Roles",
+                    UserClaims = { "role" }
+                },
+            };
+        }
 
         public static IEnumerable<Client> GetClients()
         {
@@ -46,7 +60,7 @@ namespace IdentityServer.Testing
                     AllowedScopes =
                     {
                         "openid",
-                        //"profile",
+                        "profile",
                         "roles"
                     },
                     //AllowOfflineAccess = true
