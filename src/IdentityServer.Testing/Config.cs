@@ -10,8 +10,15 @@ namespace IdentityServer.Testing
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("api", "Web Api")
+                {
+                    ApiSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    }
+                }
             };
+
         }
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
@@ -19,6 +26,7 @@ namespace IdentityServer.Testing
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email(),
                 new IdentityResource
                 {
                     Name = "roles",
@@ -42,9 +50,11 @@ namespace IdentityServer.Testing
                     },
                     AllowedScopes =
                     {
+                        "api",
                         "openid",
                         "profile",
-                        "roles"
+                        "roles",
+                        "email"
                     }
                 },
                  new Client
@@ -64,9 +74,11 @@ namespace IdentityServer.Testing
 
                     AllowedScopes =
                     {
+                        "api",
                         "openid",
                         "profile",
-                        "roles"
+                        "roles",
+                        "email"
                     },
                     //AllowOfflineAccess = true
                 }

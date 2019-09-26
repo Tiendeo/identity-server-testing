@@ -2,7 +2,6 @@ FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 RUN apt-get update && apt-get dist-upgrade -y
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM microsoft/dotnet:2.2-sdk AS build
 RUN apt-get update && apt-get dist-upgrade -y
