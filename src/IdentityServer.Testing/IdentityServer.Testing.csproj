@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <AssemblyName>IdentityServer.Testing</AssemblyName>
     <RootNamespace>IdentityServer.Testing</RootNamespace>
   </PropertyGroup>

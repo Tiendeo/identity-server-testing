@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1FC1FECF-7432-4B93-BFC9-6B5ECC88462B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiendeo.IdentityServer.Testing", "src\Tiendeo.IdentityServer.Testing\Tiendeo.IdentityServer.Testing.csproj", "{9F2DFA15-BB1D-4032-9DD6-5CFDF4718AED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer.Testing", "src\IdentityServer.Testing\IdentityServer.Testing.csproj", "{9F2DFA15-BB1D-4032-9DD6-5CFDF4718AED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

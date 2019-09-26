@@ -40,7 +40,12 @@ namespace IdentityServer.Testing
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "roles" }
+                    AllowedScopes =
+                    {
+                        "openid",
+                        "profile",
+                        "roles"
+                    }
                 },
                  new Client
                 {

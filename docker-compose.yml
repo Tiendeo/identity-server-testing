@@ -1,0 +1,10 @@
+version: "3.4"
+
+services:
+  identity-server-testing:
+    image: ${REGISTRY}/identity-server-testing:${TAG}
+    ports:
+      - "8002:80"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
