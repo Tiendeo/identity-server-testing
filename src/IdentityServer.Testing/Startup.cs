@@ -22,7 +22,7 @@ namespace IdentityServer.Testing
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
-                //.AddTestUsers(Config.GetUsers())
+                .AddTestUsers(Config.GetUsers())
                 ;
         }
 

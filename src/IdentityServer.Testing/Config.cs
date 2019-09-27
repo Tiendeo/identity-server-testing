@@ -87,15 +87,7 @@ namespace IdentityServer.Testing
 
         public static List<TestUser> GetUsers()
         {
-            return new List<TestUser>
-            {
-                new TestUser
-                {
-                    SubjectId = "1",
-                    Username = "alice",
-                    Password = "password"
-                }
-            };
+            return IdentityServer4.Quickstart.UI.TestUsers.Users;
         }
     }
 }
