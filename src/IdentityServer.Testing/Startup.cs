@@ -5,12 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityServer.Testing
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -19,10 +27,10 @@ namespace IdentityServer.Testing
             services
                 .AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients())
-                .AddTestUsers(Config.GetUsers())
+                .AddInMemoryIdentityResources(InMemoryResources.IdentityResources)
+                .AddInMemoryApiResources(InMemoryResources.ApiResources)
+                .AddInMemoryClients(InMemoryResources.Clients)
+                .AddTestUsers(InMemoryResources.Users)
                 ;
         }
 
@@ -37,6 +45,11 @@ namespace IdentityServer.Testing
             app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
+
+            app.UseConfigurationApiResources(Configuration);
+            app.UseConfigurationIdentityResources(Configuration);
+            app.UseConfigurationClients(Configuration);
+            app.UseConfigurationTestUsers(Configuration);
         }
     }
 }
