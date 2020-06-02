@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace IdentityServer.Testing
 {
@@ -19,6 +18,11 @@ namespace IdentityServer.Testing
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(config =>
+                {
+                    config.AddJsonFile("appsettings.json", optional: true);
+                    config.AddEnvironmentVariables();
+                })
                 .UseStartup<Startup>()
             .Build();
     }
