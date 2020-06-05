@@ -31,17 +31,14 @@ namespace IdentityServer.Testing
                     }));
             }
 
-            if (!InMemoryResources.ApiResources.Any())
+            InMemoryResources.ApiResources.Add(new ApiResource("api", "Web Api")
             {
-                InMemoryResources.ApiResources.Add(new ApiResource("api", "Web Api")
+                ApiSecrets =
                 {
-                    ApiSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    }
-                });
-            }
-
+                    new Secret("secret".Sha256())
+                }
+            });
+            
             return app;
         }
         
@@ -51,19 +48,15 @@ namespace IdentityServer.Testing
             configuration.GetSection("IdentityResources").Bind(identityResources);
             InMemoryResources.IdentityResources.AddRange(identityResources);
 
-            if (!InMemoryResources.IdentityResources.Any())
+            InMemoryResources.IdentityResources.Add(new IdentityResources.OpenId());
+            InMemoryResources.IdentityResources.Add(new IdentityResources.Profile());
+            InMemoryResources.IdentityResources.Add(new IdentityResources.Email());
+            InMemoryResources.IdentityResources.Add(new IdentityResource
             {
-                InMemoryResources.IdentityResources.Add(new IdentityResources.OpenId());
-                InMemoryResources.IdentityResources.Add(new IdentityResources.Profile());
-                InMemoryResources.IdentityResources.Add(new IdentityResources.Email());
-                InMemoryResources.IdentityResources.Add(new IdentityResource
-                {
-                    Name = "roles",
-                    DisplayName = "Roles",
-                    UserClaims = { "role" }
-                });
-
-            }
+                Name = "roles",
+                DisplayName = "Roles",
+                UserClaims = { "role" }
+            });
 
             return app;
         }
@@ -105,26 +98,23 @@ namespace IdentityServer.Testing
                     }));
             }
 
-            if (!InMemoryResources.Clients.Any())
+            InMemoryResources.Clients.Add(new Client
             {
-                InMemoryResources.Clients.Add(new Client
+                ClientId = "client",
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                ClientSecrets =
                 {
-                    ClientId = "client",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes =
-                    {
-                        "api",
-                        "openid",
-                        "profile",
-                        "roles",
-                        "email"
-                    }
-                });
-            }
+                    new Secret("secret".Sha256())
+                },
+                AllowedScopes =
+                {
+                    "api",
+                    "openid",
+                    "profile",
+                    "roles",
+                    "email"
+                }
+            });
 
             return app;
         }
