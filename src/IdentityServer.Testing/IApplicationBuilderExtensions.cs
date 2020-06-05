@@ -76,7 +76,7 @@ namespace IdentityServer.Testing
                     {
                         var client = new Client();
                         client.ClientId = section.Key;
-                        client.AllowedGrantTypes = GrantTypes.Code;
+                        client.AllowedGrantTypes = new List<string>() { "authorization_code", "password" } ;
                         client.RequirePkce = true;
                         client.AllowAccessTokensViaBrowser = true;
                         client.RequireClientSecret = false;
@@ -84,7 +84,7 @@ namespace IdentityServer.Testing
                         client.RedirectUris = section.GetSection("RedirectUris").GetChildren().Select(host => host.Value).ToList();
                         client.PostLogoutRedirectUris = section.GetSection("PostLogoutRedirectUris").GetChildren().Select(host => host.Value).ToList();
                         client.AllowedCorsOrigins = section.GetSection("AllowedCorsOrigins").GetChildren().Select(host => host.Value).ToList();
-                        client.AllowedScopes = new List<string> { "openid", "profile", "roles", "guid" };
+                        client.AllowedScopes = new List<string> { "openid", "profile", "roles" };
 
                         if (section.GetSection("Scopes").Exists())
                         {

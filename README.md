@@ -20,7 +20,7 @@ services:
       Users__admin__Roles__0: "apiresource-rw"
 ```
 
-Clients configured this way have an 'authorization_code' grant type with PCK required, and do not require client secret.
+Clients configured this way allow 'authorization_code' grant type with PCK required or 'password' grant, and do not require client secret. They have also allow the scopes: 'openid', 'profile', 'roles'.
 
 You can also add more complex api resources, identity resources or clients and they will be mapped to the objects `IdentityServer4.Models.ApiResource`, `IdentityServer4.Models.IdentityResource` or `IdentityServer4.Models.Client` respectively.
 
