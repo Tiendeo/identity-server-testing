@@ -11,11 +11,16 @@ services:
     environment:
       DefaultApiResources__0: "apiresource"
       DefaultClients__testclient__Secret: "changeit"
-      DefaultClients__testclient__RedirectUris__0: "http://localhost:5001/api-docs/oauth2-redirect.html"
+      DefaultClients__testclient__RedirectUris__0: "http://localhost:5001/auth/signin-oidc"
+      DefaultClients__testclient__RedirectUris__1: "http://localhost:5001/auth/silent_renew"
+      DefaultClients__testclient__PostLogoutRedirectUris__0: "http://localhost:5001/signout-callback-oidc"
+      DefaultClients__testclient__AllowedCorsOrigins__0: "http://localhost:5001"
       DefaultClients__testclient__Scopes__0: "apiresource"
       Users__admin__Password: "changeit"
       Users__admin__Roles__0: "apiresource-rw"
 ```
+
+Clients configured this way have an 'authorization_code' grant type with PCK required, and do not require client secret.
 
 You can also add more complex api resources, identity resources or clients and they will be mapped to the objects `IdentityServer4.Models.ApiResource`, `IdentityServer4.Models.IdentityResource` or `IdentityServer4.Models.Client` respectively.
 

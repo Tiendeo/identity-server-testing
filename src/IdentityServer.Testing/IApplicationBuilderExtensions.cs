@@ -13,19 +13,9 @@ namespace IdentityServer.Testing
     {
         public static IApplicationBuilder UseConfigurationApiResources(this IApplicationBuilder app, IConfiguration configuration)
         {
-            var apiResourcesSection = configuration.GetSection("ApiResources");
-
-            if (apiResourcesSection.Exists())
-            {
-                InMemoryResources.ApiResources.AddRange(apiResourcesSection.GetChildren()
-                    .Select(section =>
-                    {
-                        var apiResource = new ApiResource();
-                        section.Bind(apiResource);
-
-                        return apiResource;
-                    }));
-            }
+            var apiResources = new List<ApiResource>();
+            configuration.GetSection("ApiResources").Bind(apiResources);
+            InMemoryResources.ApiResources.AddRange(apiResources);
 
             var defaultApiResourcesSection = configuration.GetSection("DefaultApiResources");
 
@@ -57,19 +47,11 @@ namespace IdentityServer.Testing
         
         public static IApplicationBuilder UseConfigurationIdentityResources(this IApplicationBuilder app, IConfiguration configuration)
         {
-            var identityResourcesSection = configuration.GetSection("IdentityResources");
+            var identityResources = new List<IdentityResource>();
+            configuration.GetSection("IdentityResources").Bind(identityResources);
+            InMemoryResources.IdentityResources.AddRange(identityResources);
 
-            if (identityResourcesSection.Exists())
-            {
-                InMemoryResources.IdentityResources.AddRange(identityResourcesSection.GetChildren()
-                    .Select(section =>
-                    {
-                        var identityResource = new IdentityResource();
-                        section.Bind(identityResource);
-                        return identityResource;
-                    }));
-            }
-            else
+            if (!InMemoryResources.IdentityResources.Any())
             {
                 InMemoryResources.IdentityResources.Add(new IdentityResources.OpenId());
                 InMemoryResources.IdentityResources.Add(new IdentityResources.Profile());
@@ -88,20 +70,10 @@ namespace IdentityServer.Testing
         
         public static IApplicationBuilder UseConfigurationClients(this IApplicationBuilder app, IConfiguration configuration)
         {
-            var clientsSection = configuration.GetSection("Clients");
-
-            if (clientsSection.Exists())
-            {
-                InMemoryResources.Clients.AddRange(clientsSection.GetChildren()
-                    .Select(section =>
-                    {
-                        var client = new Client();
-                        section.Bind(client);
-
-                        return client;
-                    }));
-            }
-
+            var clients = new List<Client>();
+            configuration.GetSection("Clients").Bind(clients);
+            InMemoryResources.Clients.AddRange(clients);
+            
             var defaultClientsSection = configuration.GetSection("DefaultClients");
 
             if (defaultClientsSection.Exists())
@@ -111,10 +83,14 @@ namespace IdentityServer.Testing
                     {
                         var client = new Client();
                         client.ClientId = section.Key;
-                        client.AllowedGrantTypes = GrantTypes.Implicit;
+                        client.AllowedGrantTypes = GrantTypes.Code;
+                        client.RequirePkce = true;
                         client.AllowAccessTokensViaBrowser = true;
+                        client.RequireClientSecret = false;
                         client.ClientSecrets = new List<Secret> { new Secret(section.GetValue("Secret", "changeit")) };
                         client.RedirectUris = section.GetSection("RedirectUris").GetChildren().Select(host => host.Value).ToList();
+                        client.PostLogoutRedirectUris = section.GetSection("PostLogoutRedirectUris").GetChildren().Select(host => host.Value).ToList();
+                        client.AllowedCorsOrigins = section.GetSection("AllowedCorsOrigins").GetChildren().Select(host => host.Value).ToList();
                         client.AllowedScopes = new List<string> { "openid", "profile", "roles", "guid" };
 
                         if (section.GetSection("Scopes").Exists())
