@@ -80,7 +80,7 @@ namespace IdentityServer.Testing
                         client.RequirePkce = true;
                         client.AllowAccessTokensViaBrowser = true;
                         client.RequireClientSecret = false;
-                        client.ClientSecrets = new List<Secret> { new Secret(section.GetValue("Secret", "changeit")) };
+                        client.ClientSecrets = new List<Secret> { new Secret(section.GetValue("Secret", "changeit").Sha256()) };
                         client.RedirectUris = section.GetSection("RedirectUris").GetChildren().Select(host => host.Value).ToList();
                         client.PostLogoutRedirectUris = section.GetSection("PostLogoutRedirectUris").GetChildren().Select(host => host.Value).ToList();
                         client.AllowedCorsOrigins = section.GetSection("AllowedCorsOrigins").GetChildren().Select(host => host.Value).ToList();
