@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,19 +25,24 @@ namespace IdentityServer.Testing
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.ConfigureNonBreakingSameSiteCookies();
+
+            services.AddAntiforgery(o => {
+                o.Cookie.SameSite = SameSiteMode.None;
+            });
             services
                 .AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(InMemoryResources.IdentityResources)
                 .AddInMemoryApiResources(InMemoryResources.ApiResources)
                 .AddInMemoryClients(InMemoryResources.Clients)
-                .AddTestUsers(InMemoryResources.Users)
-                ;
+                .AddTestUsers(InMemoryResources.Users);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCookiePolicy();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
